@@ -1,15 +1,17 @@
 import React, { useMemo } from "react";
-import { useGetProductsByCategoryQuery, useGetProductsQuery } from "../store/apiSlice";
+import { useGetProductsByCategoryQuery, useGetProductsQuery, useSearchProductsQuery } from "../store/apiSlice";
 import { useSelector } from "react-redux";
 import ProductCard from "../components/ProductCard/ProductCard";
 import FilterSection from '../components/FilterSection/FilterSection';
 
 export default function HomePage(){
-    const {selectedCategory, activeFilters, sortOrder} = useSelector((state)=> state.filters);
+    const {selectedCategory, activeFilters, sortOrder, searchQuery} = useSelector((state)=> state.filters);
+
+    const searchResult = useSearchProductsQuery(searchQuery, {skip: !searchQuery});
     const allProducts = useGetProductsQuery(30,{skip: !!selectedCategory});
     const categoryProducts = useGetProductsByCategoryQuery(selectedCategory, {skip: !selectedCategory});
     
-    const {data, error, isLoading, isFetching} = selectedCategory ? categoryProducts : allProducts;
+    const {data, error, isLoading, isFetching} = searchQuery ? searchResult : (selectedCategory ? categoryProducts : allProducts);
     
     if(error) return <div className="error">Произошла ошибка при загрузке</div>;
     

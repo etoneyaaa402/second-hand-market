@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedCategory: null,
+  searchQuery: '',
   sortOrder: 'asc',
   options: {
     Color: ['White', 'Dark', 'Red', 'Blue'],
@@ -36,9 +37,15 @@ const filterSlice = createSlice({
     },
     removeFilter: (state, action) => {
       state.activeFilters = state.activeFilters.filter(f => f.id !== action.payload);
-    }
+    },
+    setSearchQuery: (state,action)=>{
+        state.searchQuery = action.payload;
+        if (action.payload) {
+            state.selectedCategory = null;
+        }
+    },
   },
 });
 
-export const { setCategory, setSortOrder, addFilter, removeFilter } = filterSlice.actions;
+export const { setCategory, setSortOrder, addFilter, removeFilter, setSearchQuery } = filterSlice.actions;
 export default filterSlice.reducer;

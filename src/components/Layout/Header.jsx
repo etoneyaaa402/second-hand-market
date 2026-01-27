@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchQuery } from '../../store/filterSlice';
 import './Header.css';
 
 // Иконка поиска
@@ -35,6 +37,11 @@ const UserIcon = () => (
 );
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const searchQuery = useSelector(state=>state.filters.searchQuery);
+  const handleSearch = (e)=>{
+    dispatch(setSearchQuery(e.target.value));
+  };
   return (
     <header className="header">
       <div className="header-top">
@@ -44,7 +51,7 @@ export default function Header() {
             </Link>
 
             <div className="search-container">
-                <input type="text" className="search-input" />
+                <input type="text" className="search-input" value={searchQuery} onChange={handleSearch}/>
                 <span className="search-icon">
                     <SearchIcon />
                 </span>
