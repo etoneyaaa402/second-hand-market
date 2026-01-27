@@ -1,5 +1,7 @@
 import React from "react";
 import './ProductCard.css';
+import { addToCart } from "../../store/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const HeartIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2">
@@ -16,9 +18,11 @@ const CartIcon = () => (
 );
 
 export default function ProductCard({product}){
+    const dispatch = useDispatch();
     const isNew = product.id % 2 === 0;
     const isReserved = product.id % 3 === 0;
-
+    const isInCart = useSelector((state)=>state.cart.items.includes(product.id));
+    
     return(
         <div className="product-card">
             <div className="product-image-wrapper">
@@ -35,8 +39,14 @@ export default function ProductCard({product}){
                 <h3 className="product-title">{product.title}-{product.brand}</h3>
                 <div className="product-footer">
                     <span className="product-price">{product.price.toLocaleString('de-DE')}$</span>
-                    <button className="cart-button">
-                        <CartIcon/>
+                    <button className={`cart-button ${isInCart ? 'added' : ''}`}
+                    onClick={()=>{
+                        dispatch(addToCart(product.id));
+                        console.log("added to cart");
+                    }}
+                    disabled={isInCart}
+                    >
+                        {isInCart ? <span className="added-text">Added</span> : <CartIcon/>}    
                     </button>
                 </div>
             </div>

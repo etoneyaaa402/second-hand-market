@@ -105,3 +105,13 @@
   .cart-button:hover {
     color: #e56b6f;
   }
+
+  .cart-button.added{
+    color: #e56b6f;
+    cursor: default;
+  }
+
+  .added-text{
+    font-size: 13px;
+    font-weight: 600;
+  }
