@@ -70,3 +70,7 @@
   .chevron.open {
     transform: rotate(180deg);
   }
+
+  .sidebar-title-container.selected .sidebar-title {
+    text-decoration: underline;
+  }

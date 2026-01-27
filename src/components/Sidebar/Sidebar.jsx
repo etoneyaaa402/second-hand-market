@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategory } from '../../store/filterSlice';
 import './Sidebar.css';
 
 const ChevronIcon = ({ isOpen })=>(
@@ -11,25 +13,36 @@ const ChevronIcon = ({ isOpen })=>(
     </svg>
 );
 const menuData = [
-    {id: 'shoes', title: 'Shoes',
-        sub: [{id: 'insoles', title: 'Insoles'}]
+    {id: 'shoes', title: 'Shoes', slug: 'mens-shoes',
+        sub: [{id: 'insoles', title: 'Insoles', slug: 'mens-shoes'}]
     },
-    {id: 'apparel', title: 'Apparel'},
+    {id: 'apparel', title: 'Apparel', slug: 'womens-dresses'},
     {
         id: 'accessories',
         title: 'Accessories',
-        sub: [{id: 'belts', title: 'Belts',
-            sub: [{id: 'leather-belts', title: 'Leather belts'}]
+        slug: 'womens-jewellery',
+        sub: [{id: 'belts', title: 'Belts', slug: 'womens-watches',
+            sub: [{id: 'leather-belts', title: 'Leather belts', slug: 'womens-watches'}]
         }]
     },
-    {id: 'sport', title: 'Sport'},
-    {id: 'beauty', title: 'Beauty'}
+    {id: 'sport', title: 'Sport', slug: 'sports-accessories'},
+    {id: 'beauty', title: 'Beauty', slug: 'beauty'}
 ];
 
 export default function Sidebar(){
+    const dispatch = useDispatch();
+    const currentCategory = useSelector((state)=> state.filters.selectedCategory);
     const [openItems, setOpenItems] = useState(['accessories','belts']);
     const toggleItem=(id)=>{
         setOpenItems(prev => prev.includes(id)?prev.filter(item=> item!==id): [...prev,id]);
+    };
+    const handleClick = (item) =>{
+        if (item.sub) {
+            toggleItem(item.id);
+        }
+        if (item.slug) {
+            dispatch(setCategory(item.slug));
+        }
     };
     const renderMenuItems = (items, level = 0) => {
         return (
@@ -37,12 +50,13 @@ export default function Sidebar(){
             {items.map(item => {
             const isOpen = openItems.includes(item.id);
             const isTopLevel = level === 0;
+            const isSelected = currentCategory === item.slug;
     
             return (
                 <li key={item.id} className={`sidebar-item ${isTopLevel ? 'sidebar-item-main' : 'sidebar-item-sub'}`}>
                 <div 
-                    className="sidebar-title-container" 
-                    onClick={() => item.sub && toggleItem(item.id)}
+                    className={`sidebar-title-container ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleClick(item)}
                 >
                     <span className="sidebar-title">
                     {item.title}
@@ -65,6 +79,11 @@ export default function Sidebar(){
       return (
         <aside className="sidebar">
           <h3 className="sidebar-header">Categories</h3>
+          <div 
+            className={`sidebar-title-container ${!currentCategory ? 'selected' : ''}`}
+            onClick={() => dispatch(setCategory(null))}
+            style={{paddingLeft: '20px', marginBottom: '10px', cursor: 'pointer'}}
+          ></div>
           {renderMenuItems(menuData)}
         </aside>
       );

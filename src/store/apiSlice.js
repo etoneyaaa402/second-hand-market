@@ -8,7 +8,7 @@ export const apiSlice = createApi({
             query: (limit=7)=> `products?limit=${limit}`,
         }),
         getProductsByCategory: builder.query({
-            query: ({category,limit=7})=>`products/category/${category}?limit=${limit}`,
+            query: (category)=>`products/category/${category}?limit=7`,
         }),
         searchProducts: builder.query({
             query: (term)=>`products/search?q=${term}`,
