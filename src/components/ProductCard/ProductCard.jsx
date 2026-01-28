@@ -2,6 +2,7 @@ import React from "react";
 import './ProductCard.css';
 import { addToCart } from "../../store/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const HeartIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2">
@@ -23,33 +24,47 @@ export default function ProductCard({product}){
     const isReserved = product.id % 3 === 0;
     const isInCart = useSelector((state)=>state.cart.items.includes(product.id));
     
+    const handleCartClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(addToCart(product.id));
+    };
+
+    const handleHeartClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("Liked!");
+    };
+
     return(
         <div className="product-card">
-            <div className="product-image-wrapper">
-                <img src={product.thumbnail} alt={product.title} className="product-image" />
-                <button className="heart-button">
-                    <HeartIcon />
-                </button>
-                <div className="badges-container">
-                    {isNew && <span className="badge badge-new">New</span>}
-                    {isReserved && <span className="badge badge-reserved">Reserved</span>}
-                </div>
-            </div>
-            <div className="product-info">
-                <h3 className="product-title">{product.title}-{product.brand}</h3>
-                <div className="product-footer">
-                    <span className="product-price">{product.price.toLocaleString('de-DE')}$</span>
-                    <button className={`cart-button ${isInCart ? 'added' : ''}`}
-                    onClick={()=>{
-                        dispatch(addToCart(product.id));
-                        console.log("added to cart");
-                    }}
-                    disabled={isInCart}
-                    >
-                        {isInCart ? <span className="added-text">Added</span> : <CartIcon/>}    
+            <Link to={`/product/${product.id}`} className="product-main-link">
+                <div className="product-image-wrapper">
+                    <img src={product.thumbnail} alt={product.title} className="product-image" />
+                    <button className="heart-button">
+                        <HeartIcon />
                     </button>
+                    <div className="badges-container">
+                        {isNew && <span className="badge badge-new">New</span>}
+                        {isReserved && <span className="badge badge-reserved">Reserved</span>}
+                    </div>
                 </div>
-            </div>
+                <div className="product-info">
+                    <h3 className="product-title">{product.title}-{product.brand}</h3>
+                    <div className="product-footer">
+                        <span className="product-price">{product.price.toLocaleString('de-DE')}$</span>
+                        <button className={`cart-button ${isInCart ? 'added' : ''}`}
+                        onClick={()=>{
+                            dispatch(addToCart(product.id));
+                            console.log("added to cart");
+                        }}
+                        disabled={isInCart}
+                        >
+                            {isInCart ? <span className="added-text">Added</span> : <CartIcon/>}    
+                        </button>
+                    </div>
+                </div>
+            </Link>
         </div>
     );
 }
