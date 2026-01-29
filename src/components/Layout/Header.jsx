@@ -1,7 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useRef, useEffect} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../../store/filterSlice';
+import { logout } from '../../store/authSlice';
 import './Header.css';
 
 // Иконка поиска
@@ -39,10 +40,38 @@ const UserIcon = () => (
 export default function Header() {
   const dispatch = useDispatch();
   const searchQuery = useSelector(state=>state.filters.searchQuery);
+
+  const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const profileRef = useRef(null);
+
+  const {user}=useSelector((state)=>state.auth);
+  const cartCount = useSelector((state)=> state.cart.items.length);
+
   const handleSearch = (e)=>{
     dispatch(setSearchQuery(e.target.value));
   };
-  const cartCount = useSelector((state)=> state.cart.items.length);
+  const handleLogout = ()=>{
+    dispatch(logout());
+    navigate('/login');
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalOpen]);
+  
   return (
     <header className="header">
       <div className="header-top">
@@ -75,8 +104,22 @@ export default function Header() {
                     <BagIcon />
                     <span className="icon-count">{cartCount}</span>
                 </div>
-                <div className="icon-item user-avatar">
-                    <UserIcon />
+                <div className="profile-menu-container" ref={profileRef}>
+                    <div className={`icon-item user-avatar ${isModalOpen ? 'active' : ''}`} onClick={()=> setIsModalOpen(!isModalOpen)}>
+                        <UserIcon />
+                    </div>
+                    {isModalOpen && (
+                      <div className="profile-modal">
+                        <div className="profile-info">
+                          <span className="profile-label">username:</span>
+                          <span className="profile-name">{user?.username || 'Guest'}</span>
+                        </div>
+                        <div className="profile-divider"></div>
+                        <button className="logout-button" onClick={handleLogout}>
+                          Exit
+                        </button>
+                      </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -139,3 +139,74 @@
   svg {
     display: block;
   }
+
+.profile-menu-container {
+  position: relative;
+}
+
+.profile-modal {
+  position: absolute;
+  top: 50px; 
+  right: 0;
+  background: white;
+  width: 220px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-info {
+  padding: 20px;
+  text-align: left;
+}
+
+.profile-label {
+  display: block;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e56b6f;
+}
+
+.profile-divider {
+  height: 1px;
+  background-color: #f0f0f0;
+  width: 100%;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 15px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #f9f9f9;
+}
+
+.user-avatar {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.user-avatar:active {
+  transform: scale(0.9);
+}
