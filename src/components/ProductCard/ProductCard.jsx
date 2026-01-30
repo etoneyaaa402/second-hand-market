@@ -45,7 +45,7 @@ export default function ProductCard({product}){
             <Link to={`/product/${product.id}`} className="product-main-link">
                 <div className="product-image-wrapper">
                     <img src={product.thumbnail} alt={product.title} className="product-image" />
-                    <button className="heart-button" onClick={handleHeartClick}>
+                    <button className="heart-button" onClick={handleHeartClick} aria-label="Add to wishlist">
                         <HeartIcon isLiked={isLiked}/>
                     </button>
                     <div className="badges-container">
@@ -60,6 +60,7 @@ export default function ProductCard({product}){
                         <button className={`cart-button ${isInCart ? 'added' : ''}`}
                         onClick={handleCartClick}
                         disabled={isInCart}
+                        aria-label="Add to cart"
                         >
                             {isInCart ? <span className="added-text">Added</span> : <CartIcon/>}    
                         </button>

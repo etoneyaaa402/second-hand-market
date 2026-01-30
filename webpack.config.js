@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: './src/index.js', //точка входа в приложуху
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -31,6 +33,22 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true
+            }
+        }),
+        new CopyPlugin({
+            patterns: [
+                { 
+                    from: path.resolve(__dirname, 'public'), 
+                    to: path.resolve(__dirname, 'dist'),
+                    filter: (resourcePath) => {
+                        if (resourcePath.endsWith('index.html')) return false;
+                        return true;
+                    },
+                },
+            ],
         }),
     ],
     devServer: {
@@ -39,5 +57,7 @@ module.exports = {
         open: true,
         hot: true,
     },
-    mode: 'development',
+    optimization: {
+        minimize: true,
+    },
 };
