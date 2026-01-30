@@ -3,6 +3,7 @@ import Header from './Header';
 import CategoryNav from './CategoryNav';
 import Sidebar from '../Sidebar/Sidebar';
 import './Layout.css';
+import ScrollToTop from '../ScrollToTop/ScrollToTop';
 
 export default function Layout(){
     return(
@@ -15,6 +16,7 @@ export default function Layout(){
                     <Outlet />
                 </main>
             </div>
+            <ScrollToTop/>
         </div>
     )
 }
