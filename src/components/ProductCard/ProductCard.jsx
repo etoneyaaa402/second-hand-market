@@ -1,11 +1,14 @@
 import React from "react";
 import './ProductCard.css';
 import { addToCart } from "../../store/cartSlice";
+import { toggleWishlist } from "../../store/wishlistSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-const HeartIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2">
+const HeartIcon = ({isLiked}) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" 
+    fill={isLiked ? "red" : "black"} stroke={isLiked ? "red" : "black"} strokeWidth="2"
+    style={{transition: 'all 0.3s ease'}}>
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
     </svg>
 );
@@ -23,7 +26,8 @@ export default function ProductCard({product}){
     const isNew = product.id % 2 === 0;
     const isReserved = product.id % 3 === 0;
     const isInCart = useSelector((state)=>state.cart.items.includes(product.id));
-    
+    const isLiked = useSelector((state) => state.wishlist.items.includes(product.id));
+
     const handleCartClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -33,7 +37,7 @@ export default function ProductCard({product}){
     const handleHeartClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log("Liked!");
+        dispatch(toggleWishlist(product.id));
     };
 
     return(
@@ -41,8 +45,8 @@ export default function ProductCard({product}){
             <Link to={`/product/${product.id}`} className="product-main-link">
                 <div className="product-image-wrapper">
                     <img src={product.thumbnail} alt={product.title} className="product-image" />
-                    <button className="heart-button">
-                        <HeartIcon />
+                    <button className="heart-button" onClick={handleHeartClick}>
+                        <HeartIcon isLiked={isLiked}/>
                     </button>
                     <div className="badges-container">
                         {isNew && <span className="badge badge-new">New</span>}
@@ -54,10 +58,7 @@ export default function ProductCard({product}){
                     <div className="product-footer">
                         <span className="product-price">{product.price.toLocaleString('de-DE')}$</span>
                         <button className={`cart-button ${isInCart ? 'added' : ''}`}
-                        onClick={()=>{
-                            dispatch(addToCart(product.id));
-                            console.log("added to cart");
-                        }}
+                        onClick={handleCartClick}
                         disabled={isInCart}
                         >
                             {isInCart ? <span className="added-text">Added</span> : <CartIcon/>}    
