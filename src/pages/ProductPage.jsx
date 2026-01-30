@@ -79,9 +79,9 @@ export default function ProductPage(){
                     </div>
 
                     <div className="shipping-selector">
-                        <label htmlFor="shipping-select">Shipping to:</label>
+                        <label htmlFor="shipping-select-country">Shipping to:</label>
                         <select 
-                            id="shipping-select"
+                            id="shipping-select-country"
                             value={selectedShipping.country} 
                             onChange={(e) => setSelectedShipping(shippingOptions.find(opt => opt.country === e.target.value))}
                         >

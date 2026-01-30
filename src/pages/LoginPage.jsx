@@ -40,6 +40,7 @@ export default function LoginPage(){
                         onChange={(e) => setUsername(e.target.value)} 
                         required 
                         placeholder="Enter your username"
+                        aria-label="Enter username"
                         />
                     </div>
 
@@ -51,12 +52,13 @@ export default function LoginPage(){
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
                         placeholder="••••••••"
+                        aria-label="Enter password"
                         />
                     </div>
 
                     <div className="login-helpers">
                         <label className="remember-me">
-                            <input type="checkbox" /> Remember me
+                            <input type="checkbox" aria-label="choose to remember" /> Remember me
                         </label>
                         <a href="#" className="forgot-link">Forgot password?</a>
                     </div>

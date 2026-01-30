@@ -33,6 +33,9 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
   }
   
   .badges-container {
@@ -100,6 +103,9 @@
     cursor: pointer;
     padding: 5px;
     transition: color 0.2s;
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
   }
   
   .cart-button:hover {
