@@ -74,3 +74,18 @@
   .sidebar-title-container.selected .sidebar-title {
     text-decoration: underline;
   }
+
+
+  @media (max-width: 768px) {
+    .main-wrapper > .sidebar {
+      display: none;
+    }
+  
+    .drawer-sidebar-wrapper .sidebar {
+      display: block !important;
+      width: 100%;
+      padding: 0;
+      border-right: none;
+      margin-top: 50px;
+    }
+  }

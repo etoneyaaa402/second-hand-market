@@ -100,3 +100,57 @@
     text-decoration: none;
     font-weight: 600;
   }
+
+
+
+  @media (max-width: 768px) {
+    .login-card {
+      padding: 30px 20px; 
+      width: 92%;
+      max-width: 360px;
+      border-radius: 30px;
+    }
+  
+    .login-logo {
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  
+    .login-card h2 {
+      font-size: 20px;
+    }
+  
+    .login-subtitle {
+      font-size: 12px;
+    }
+  
+    .login-helpers {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+  
+    .input-group input {
+      padding: 14px 15px;
+      font-size: 16px;
+    }
+  
+    .login-btn {
+      padding: 16px;
+      font-size: 16px;
+    }
+  
+    .register-text {
+      margin-top: 25px;
+      font-size: 13px;
+    }
+  }
+  
+  @media (max-width: 380px) {
+      .login-card {
+          padding: 25px 15px;
+      }
+  }

@@ -148,3 +148,34 @@
     color: #999;
     cursor: default;
   }
+
+
+
+  @media (max-width: 768px) {
+    .product-main-card {
+      padding: 20px;
+      border-radius: 20px;
+    }
+  
+    .card-header {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  
+    .product-content {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .detail-title {
+      font-size: 22px;
+    }
+  
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .detail-actions {
+      flex-direction: column;
+    }
+  }
