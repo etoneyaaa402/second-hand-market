@@ -10,3 +10,39 @@
     min-width: 0;
     padding: 20px 40px;
 }
+
+
+
+@media (max-width: 768px) {
+    .main-wrapper {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      display: none;
+    }
+  
+    .main-content {
+      padding: 15px;
+    }
+  
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+  
+    .category-nav {
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding: 10px;
+    }
+    .category-container {
+      border: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+  }

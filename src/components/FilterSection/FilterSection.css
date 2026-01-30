@@ -183,3 +183,28 @@
     cursor: pointer;
     margin-left: 10px;
 }
+
+
+
+@media (max-width: 768px) {
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow: visible;
+  }
+
+  .dropdown-wrapper {
+    position: relative; 
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    z-index: 9999;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+}

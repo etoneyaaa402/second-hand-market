@@ -19,7 +19,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     color: #333;
-    border-right: 1px solid #e0e0e0; /*разделитель*/
+    border-right: 1px solid #e0e0e0;
 }
 .category-item:last-child{
     border-right: none;
@@ -29,3 +29,29 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .category-nav {
+      padding: 10px 15px;
+      background: white;
+      overflow-x: auto; 
+      display: block;
+    }
+  
+    .category-nav::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .category-container {
+      display: flex;
+      width: max-content;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 25px;
+      padding: 2px;
+    }
+  
+    .category-item {
+      padding: 8px 20px;
+      white-space: nowrap;
+    }
+  }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../../store/filterSlice';
 import { logout } from '../../store/authSlice';
 import './Header.css';
+import Sidebar from '../Sidebar/Sidebar';
 
 // Иконка поиска
 const SearchIcon = () => (
@@ -43,6 +44,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const profileRef = useRef(null);
 
@@ -76,11 +78,20 @@ export default function Header() {
     <header className="header">
       <div className="header-top">
         <div className="header-left">
+          <button 
+              className="burger-menu" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+              <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+              <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+              <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
+          </button>
             <Link to="/" className="logo">
-                <div className="logo-text">2ND<br/>HAND<br/>MARKET</div>
+                <span className="logo-text-mobile">2HM</span>
+                <div className="logo-text desktop-only">2ND<br/>HAND<br/>MARKET</div>
             </Link>
 
-            <div className="search-container">
+            <div className="search-container desktop-only">
                 <input type="text" className="search-input" value={searchQuery} onChange={handleSearch}/>
                 <span className="search-icon">
                     <SearchIcon />
@@ -89,7 +100,7 @@ export default function Header() {
         </div>
 
         <div className="header-right">
-            <nav className="header-nav">
+            <nav className="header-nav desktop-only">
                 <a href="#">About us</a>
                 <a href="#">All shops</a>
                 <a href="#">Become a merchant</a>
@@ -123,6 +134,23 @@ export default function Header() {
                 </div>
             </div>
         </div>
+      </div>
+      <div className="mobile-search-row">
+        <input type="text" placeholder="Search products..." className="search-input" value={searchQuery} 
+          onChange={(e)=>dispatch(setSearchQuery(e.target.value))}/>
+      </div>
+      <div className={`mobile-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
+          <div className="drawer-content">
+          <span className="close-drawer" onClick={() => setIsMobileMenuOpen(false)}>✕</span>
+            <div className="drawer-nav-list">
+              <a href="#">About us</a>
+              <a href="#">All shops</a>
+              <a href="#">Become a merchant</a>
+            </div>
+            <div className="drawer-sidebar-wrapper">
+              <Sidebar/>
+            </div>
+          </div>
       </div>
     </header>
   );
