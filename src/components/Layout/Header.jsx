@@ -50,6 +50,7 @@ export default function Header() {
 
   const {user}=useSelector((state)=>state.auth);
   const cartCount = useSelector((state)=> state.cart.items.length);
+  const wishlistCount = useSelector((state)=>state.wishlist.items.length);
 
   const handleSearch = (e)=>{
     dispatch(setSearchQuery(e.target.value));
@@ -109,7 +110,7 @@ export default function Header() {
             <div className="header-icons">
                 <div className="icon-item">
                     <HeartIcon />
-                    <span className="icon-count">0</span>
+                    <span className="icon-count">{wishlistCount}</span>
                 </div>
                 <div className="icon-item">
                     <BagIcon />
