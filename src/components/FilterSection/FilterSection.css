@@ -10,7 +10,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
-    color: #999;
+    color: #666;
   }
   
   .breadcrumb-link.active-text {
@@ -85,7 +85,7 @@
 }
 
 .tag-remove {
-    color: #999;
+    color: #666;
     font-size: 14px;
     margin-left: 8px;
     line-height: 1;
@@ -101,7 +101,7 @@
     align-items: center;
     gap: 15px;
     font-size: 14px;
-    color: #999;
+    color: #666;
     margin-top: 10px;
 }
 

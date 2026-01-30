@@ -34,7 +34,7 @@
   .info-label {
     display: block;
     font-size: 12px;
-    color: #999;
+    color: #666;
     text-transform: uppercase;
     margin-bottom: 4px;
   }
@@ -82,7 +82,7 @@
   }
   
   .grid-item .label {
-    color: #999;
+    color: #666;
     margin-right: 10px;
   }
   
@@ -145,7 +145,7 @@
   
   .add-to-cart-btn.added {
     background-color: #f0f0f0;
-    color: #999;
+    color: #666;
     cursor: default;
   }
 
