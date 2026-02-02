@@ -24,16 +24,20 @@ export default function HomePage(){
         if (activeFilters.length>0) {
             result=result.filter(product=>{
                 return activeFilters.every(filter => {
-                    if(filter.label === 'Rating'){
-                        return Math.round(product.rating || 0) === parseInt(filter.label);
+                    const type = filter.type.toLowerCase();
+                    const val = filter.label; 
+                    if(type === 'rating'){
+                        const productRating = Math.round(product.rating || 0);
+                        return productRating === parseInt(val);
                     }
-                    if(filter.label === 'Weight'){
-                        return (product.weight || 0) <= parseInt(filter.label);
+                    if(type === 'weight'){
+                        const productWeight = Math.round(product.weight || 0);
+                        return productWeight === parseInt(val);
                     }
-                    if (filter.type === 'Brand') {
-                        const pBrand = (product.brand || "").toLowerCase().trim();
-                        const fBrand = (filter.label || "").toLowerCase().trim();
-                        return pBrand === fBrand;
+                    if (type === 'brand') {
+                        const productBrand = (product.brand || "").toLowerCase().trim();
+                        const filterBrand = val.toLowerCase().trim();
+                        return productBrand === filterBrand;
                     }
                     return true;
                 });
@@ -45,7 +49,7 @@ export default function HomePage(){
         return result;
     }, [data,activeFilters,sortOrder]);
 
-    console.log("Filtered count:", filteredProducts.length, "Total from API:", data?.products?.length);
+    console.log(`Поиск/Категория выдали: ${data?.products?.length || 0}. После фильтров осталось: ${filteredProducts.length}`);
 
     if (isLoading || isFetching) return <div className="loader">Загрузка товарчика...</div>;
 
