@@ -7,8 +7,8 @@ import FilterSection from '../components/FilterSection/FilterSection';
 export default function HomePage(){
     const {selectedCategory, activeFilters, sortOrder, searchQuery} = useSelector((state)=> state.filters);
 
-    const searchResult = useSearchProductsQuery(searchQuery, {skip: !searchQuery});
-    const allProducts = useGetProductsQuery(30,{skip: !!selectedCategory});
+    const searchResult = useSearchProductsQuery({ q: searchQuery, limit: 100 }, { skip: !searchQuery });
+    const allProducts = useGetProductsQuery(100,{skip: !!selectedCategory});
     const categoryProducts = useGetProductsByCategoryQuery(selectedCategory, {skip: !selectedCategory});
     
     const {data, error, isLoading, isFetching} = searchQuery ? searchResult : (selectedCategory ? categoryProducts : allProducts);
@@ -20,12 +20,26 @@ export default function HomePage(){
             return [];
         }
         let result = [...data.products];
+
         if (activeFilters.length>0) {
             result=result.filter(product=>{
                 return activeFilters.every(filter => {
-                    return product.brand 
-                        ? product.brand.toLowerCase().includes(filter.label.toLowerCase())
-                        : false;
+                    const type = filter.type.toLowerCase();
+                    const val = filter.label; 
+                    if(type === 'rating'){
+                        const productRating = Math.round(product.rating || 0);
+                        return productRating === parseInt(val);
+                    }
+                    if(type === 'weight'){
+                        const productWeight = Math.round(product.weight || 0);
+                        return productWeight === parseInt(val);
+                    }
+                    if (type === 'brand') {
+                        const productBrand = (product.brand || "").toLowerCase().trim();
+                        const filterBrand = val.toLowerCase().trim();
+                        return productBrand === filterBrand;
+                    }
+                    return true;
                 });
             });
         }
@@ -34,6 +48,8 @@ export default function HomePage(){
         });
         return result;
     }, [data,activeFilters,sortOrder]);
+
+    console.log(`Поиск/Категория выдали: ${data?.products?.length || 0}. После фильтров осталось: ${filteredProducts.length}`);
 
     if (isLoading || isFetching) return <div className="loader">Загрузка товарчика...</div>;
 
