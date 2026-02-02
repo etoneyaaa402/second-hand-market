@@ -7,7 +7,7 @@ import FilterSection from '../components/FilterSection/FilterSection';
 export default function HomePage(){
     const {selectedCategory, activeFilters, sortOrder, searchQuery} = useSelector((state)=> state.filters);
 
-    const searchResult = useSearchProductsQuery(searchQuery, {skip: !searchQuery});
+    const searchResult = useSearchProductsQuery({ q: searchQuery, limit: 100 }, { skip: !searchQuery });
     const allProducts = useGetProductsQuery(100,{skip: !!selectedCategory});
     const categoryProducts = useGetProductsByCategoryQuery(selectedCategory, {skip: !selectedCategory});
     
@@ -24,17 +24,16 @@ export default function HomePage(){
         if (activeFilters.length>0) {
             result=result.filter(product=>{
                 return activeFilters.every(filter => {
-                    // return product.brand 
-                    //     ? product.brand.toLowerCase().includes(filter.label.toLowerCase())
-                    //     : false;
                     if(filter.label === 'Rating'){
-                        return Math.round(product.rating) === parseInt(filter.label);
+                        return Math.round(product.rating || 0) === parseInt(filter.label);
                     }
                     if(filter.label === 'Weight'){
-                        return product.weight <= parseInt(filter.label);
+                        return (product.weight || 0) <= parseInt(filter.label);
                     }
-                    if(filter.label === 'Brand'){
-                        return product.brand?.toLowerCase() === filter.label.toLowerCase();
+                    if (filter.type === 'Brand') {
+                        const pBrand = (product.brand || "").toLowerCase().trim();
+                        const fBrand = (filter.label || "").toLowerCase().trim();
+                        return pBrand === fBrand;
                     }
                     return true;
                 });
@@ -45,6 +44,8 @@ export default function HomePage(){
         });
         return result;
     }, [data,activeFilters,sortOrder]);
+
+    console.log("Filtered count:", filteredProducts.length, "Total from API:", data?.products?.length);
 
     if (isLoading || isFetching) return <div className="loader">Загрузка товарчика...</div>;
 
