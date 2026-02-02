@@ -93,7 +93,8 @@ export default function Header() {
             </Link>
 
             <div className="search-container desktop-only">
-                <input type="text" className="search-input" value={searchQuery} onChange={handleSearch}/>
+                <label htmlFor="search-desktop" className="visually-hidden">Search products</label>
+                <input type="text" id="search-desktop" className="search-input" value={searchQuery} onChange={handleSearch}/>
                 <span className="search-icon">
                     <SearchIcon />
                 </span>
@@ -137,7 +138,8 @@ export default function Header() {
         </div>
       </div>
       <div className="mobile-search-row">
-        <input type="text" placeholder="Search products..." className="search-input" value={searchQuery} 
+        <label htmlFor="search-mobile" className="visually-hidden">Search products</label>
+        <input type="text" id="search-mobile" placeholder="Search products..." className="search-input" value={searchQuery} 
           onChange={(e)=>dispatch(setSearchQuery(e.target.value))}/>
       </div>
       <div className={`mobile-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
