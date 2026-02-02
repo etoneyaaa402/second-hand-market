@@ -5,9 +5,9 @@ const initialState = {
   searchQuery: '',
   sortOrder: 'asc',
   options: {
-    Color: ['White', 'Dark', 'Red', 'Blue'],
-    Size: ['XS', 'S', 'M', 'L', 'XL', '36', '36,5'],
-    Brand: ['Apple', 'Samsung', 'Esprit', 'Wrangler', 'Columbia'],
+    Rating: ['1', '2', '3', '4', '5'],
+    Weight: ['2', '4', '7', '9', '12', '15', '18'],
+    Brand: ['Apple', 'Samsung', 'Essence', 'Fashion Fun', 'Kawasaki'],
     Condition: ['New', 'Used', 'Refurbished']
   },
   activeFilters: []

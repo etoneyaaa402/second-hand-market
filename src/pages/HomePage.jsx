@@ -8,7 +8,7 @@ export default function HomePage(){
     const {selectedCategory, activeFilters, sortOrder, searchQuery} = useSelector((state)=> state.filters);
 
     const searchResult = useSearchProductsQuery(searchQuery, {skip: !searchQuery});
-    const allProducts = useGetProductsQuery(30,{skip: !!selectedCategory});
+    const allProducts = useGetProductsQuery(100,{skip: !!selectedCategory});
     const categoryProducts = useGetProductsByCategoryQuery(selectedCategory, {skip: !selectedCategory});
     
     const {data, error, isLoading, isFetching} = searchQuery ? searchResult : (selectedCategory ? categoryProducts : allProducts);
@@ -20,12 +20,23 @@ export default function HomePage(){
             return [];
         }
         let result = [...data.products];
+
         if (activeFilters.length>0) {
             result=result.filter(product=>{
                 return activeFilters.every(filter => {
-                    return product.brand 
-                        ? product.brand.toLowerCase().includes(filter.label.toLowerCase())
-                        : false;
+                    // return product.brand 
+                    //     ? product.brand.toLowerCase().includes(filter.label.toLowerCase())
+                    //     : false;
+                    if(filter.label === 'Rating'){
+                        return Math.round(product.rating) === parseInt(filter.label);
+                    }
+                    if(filter.label === 'Weight'){
+                        return product.weight <= parseInt(filter.label);
+                    }
+                    if(filter.label === 'Brand'){
+                        return product.brand?.toLowerCase() === filter.label.toLowerCase();
+                    }
+                    return true;
                 });
             });
         }
