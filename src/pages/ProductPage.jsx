@@ -49,7 +49,7 @@ export default function ProductPage(){
             </div>
             <div className="product-content">
                 <div className="product-image-section">
-                    <img src={product.thumbnail} alt={product.title}/>
+                    <img src={product.thumbnail} fetchpriority="high" alt={product.title}/>
                 </div>
                 
                 <div className="product-info-section">
@@ -79,8 +79,9 @@ export default function ProductPage(){
                     </div>
 
                     <div className="shipping-selector">
-                        <label>Shipping to:</label>
+                        <label htmlFor="shipping-select">Shipping to:</label>
                         <select 
+                            id="shipping-select"
                             value={selectedShipping.country} 
                             onChange={(e) => setSelectedShipping(shippingOptions.find(opt => opt.country === e.target.value))}
                         >

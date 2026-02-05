@@ -81,6 +81,7 @@ export default function Header() {
         <div className="header-left">
           <button 
               className="burger-menu" 
+              aria-label="Open menu"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
               <div className={`bar ${isMobileMenuOpen ? 'open' : ''}`}></div>
